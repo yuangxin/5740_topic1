@@ -1,0 +1,45 @@
+# SFT Training Configuration for GSM8K
+# Using llama-factory framework
+
+### Model
+model_name: Qwen/Qwen2.5-3B-Instruct
+model_type: qwen2
+
+### Method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+lora_rank: 16
+lora_alpha: 32
+lora_dropout: 0.05
+
+### Dataset
+dataset: gsm8k
+dataset_dir: ./data
+template: qwen
+cutoff_len: 1024
+overwrite_cache: true
+preprocessing_num_workers: 4
+
+### Output
+output_dir: ./models/qwen2.5-3b-sft
+logging_steps: 10
+save_steps: 200
+plot_loss: true
+overwrite_output_dir: true
+
+### Train
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 2.0e-5
+num_train_epochs: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+fp16: true
+
+### Evaluation
+per_device_eval_batch_size: 8
+eval_strategy: steps
+eval_steps: 200
+prediction_loss_only: false
